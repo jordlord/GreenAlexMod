@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "AAA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "green_alex_mod:green_alexite_item"
+    }
+  },
+  "result": {
+    "item": "green_alex_mod:green_alexite_block",
+    "count": 1
+  }
+}

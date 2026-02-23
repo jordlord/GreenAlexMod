@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "green_alex_mod:green_alexite_block"
+    }
+  ],
+  "result": {
+    "item": "green_alex_mod:green_alexite_item",
+    "count": 9
+  }
+}

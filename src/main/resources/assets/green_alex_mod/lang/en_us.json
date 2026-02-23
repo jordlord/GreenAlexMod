@@ -1,0 +1,23 @@
+{
+  "itemGroup.green_alex_mod": "Example Mod Tab",
+  "block.green_alex_mod.example_block": "Example Block",
+  "item.green_alex_mod.example_item": "Example Item",
+
+  "green_alex_mod.configuration.title": "GreenAlexMod Configs",
+  "green_alex_mod.configuration.section.green_alex_mod.common.toml": "GreenAlexMod Configs",
+  "green_alex_mod.configuration.section.green_alex_mod.common.toml.title": "GreenAlexMod Configs",
+
+  "block.green_alex_mod.green_alex_ore": "Green Alex Ore",
+  "item.green_alex_mod.green_alex_ore": "Green Alex Ore",
+
+  "item.green_alex_mod.green_alexite_item": "Green Alexite",
+  "block.green_alex_mod.green_alexite_block": "Green Alexite Block",
+
+  "item.green_alex_mod.green_alexanium_item": "Green Alexanium",
+  "block.green_alex_mod.green_alexanium_block": "Green Alexanium Block",
+
+  "item.green_alex_mod.green_alex_helmet": "Green Alex Helmet",
+  "item.green_alex_mod.green_alex_chestplate": "Green Alex Chestplate",
+  "item.green_alex_mod.green_alex_leggings": "Green Alex Leggings",
+  "item.green_alex_mod.green_alex_boots": "Green Alex Boots"
+}
