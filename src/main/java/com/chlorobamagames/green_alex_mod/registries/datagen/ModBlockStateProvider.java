@@ -19,15 +19,15 @@ public class ModBlockStateProvider extends BlockStateProvider {
         super(output, GreenAlexMod.MODID, exFileHelper);
     }
 
-    private static List<ModBlocks.BlockSuite> blockSuites = new ArrayList<ModBlocks.BlockSuite>();
+    private static List<ModBlocks.BlockSuite<? extends Block>> blockSuites = new ArrayList<>();
 
-    public static void addBlockSuite(ModBlocks.BlockSuite blockSuite) {
+    public static <T extends Block>  void addBlockSuite(ModBlocks.BlockSuite<T> blockSuite) {
         blockSuites.add(blockSuite);
     }
 
     @Override
     protected void registerStatesAndModels() {
-        for (ModBlocks.BlockSuite blockSuite : blockSuites) {
+        for (ModBlocks.BlockSuite<? extends Block> blockSuite : blockSuites) {
             registerBlockSuite(blockSuite);
         }
     }
@@ -42,7 +42,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         });
     }
 
-    private void registerBlockSuite(ModBlocks.BlockSuite blockSuite) {
+    private <T extends Block> void registerBlockSuite(ModBlocks.BlockSuite<T> blockSuite) {
         var baseEntry = blockSuite.block();
         var baseBlock = baseEntry.block().get();
         var texture = blockTexture(baseBlock);

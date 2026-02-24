@@ -28,7 +28,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         super(Set.of(), FeatureFlags.REGISTRY.allFlags(), registries);
     }
 
-    private static List<OreLootTable> addedOreLootTables = new ArrayList<>();
+    private static List<OreLootTable<?>> addedOreLootTables = new ArrayList<>();
 
     protected record OreLootTable<T extends Block>(
             DeferredBlock<T> block,
@@ -37,7 +37,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
             int maximumDrops
     ) { }
 
-    protected LootTable.Builder generateLootTable(OreLootTable ore) {
+    protected <T extends Block> LootTable.Builder generateLootTable(OreLootTable<T> ore) {
         return createMultipleOreDrops(ore.block, ore.item, ore.minimumDrops, ore.maximumDrops);
     }
 
@@ -56,12 +56,12 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
             DeferredBlock<T> block,
             DeferredItem<Item> item,
             int minimumDrops, int maximumDrops) {
-        addedOreLootTables.add(new OreLootTable(block, item, minimumDrops, maximumDrops));
+        addedOreLootTables.add(new OreLootTable<T>(block, item, minimumDrops, maximumDrops));
     }
 
     @Override
     protected void generate() {
-        for (OreLootTable oreLootTable : addedOreLootTables) {
+        for (OreLootTable<?> oreLootTable : addedOreLootTables) {
             add((Block) oreLootTable.block.get(), generateLootTable(oreLootTable));
         }
     }

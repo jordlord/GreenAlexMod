@@ -1,6 +1,9 @@
 package com.chlorobamagames.green_alex_mod.mod_files;
 
 import com.chlorobamagames.green_alex_mod.registries.ModBlocks;
+import com.chlorobamagames.green_alex_mod.registries.ModTags;
+import com.chlorobamagames.green_alex_mod.registries.datagen.ModBlockTagProvider;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -8,6 +11,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
+
+import java.util.*;
 
 public class GreenAlexBlocks {
     public static final ModBlocks.BlockEntry<DropExperienceBlock> GREEN_ALEX_ORE =
@@ -19,27 +24,45 @@ public class GreenAlexBlocks {
                                 .strength(2.0f)
                                 .requiresCorrectToolForDrops()
                     ),
+                    new ModBlockTagProvider.BlockTagGrouping(
+                            Set.of(BlockTags.MINEABLE_WITH_SHOVEL),
+                            Optional.of(BlockTags.NEEDS_DIAMOND_TOOL),
+                            Set.of(BlockTags.DIRT, ModTags.Blocks.GREEN)
+                    ),
                     new Item.Properties(),
+                    Set.of(),
                     GreenAlexItems.GREEN_ALEXITE_ITEM,
                     1, 1
             );
 
 
-    public static final ModBlocks.BlockSuite GREEN_ALEXITE_BLOCK =
+    public static final ModBlocks.BlockSuite<Block> GREEN_ALEXITE_BLOCK =
             ModBlocks.registerBlockSuite("green_alexite",
                     () -> new Block(BlockBehaviour.Properties
                             .ofFullCopy(Blocks.AMETHYST_BLOCK)
                             .mapColor(MapColor.EMERALD)),
+                    new ModBlockTagProvider.BlockTagGrouping(
+                        Set.of(BlockTags.MINEABLE_WITH_PICKAXE),
+                        Optional.of(BlockTags.NEEDS_DIAMOND_TOOL),
+                        Set.of(ModTags.Blocks.GREEN)
+                    ),
                     new Item.Properties(),
+                    Set.of(),
                     ModBlocks.BlockSuiteParams.stone()
             );
 
-    public static final ModBlocks.BlockSuite GREEN_ALEXANIUM_BLOCK =
+    public static final ModBlocks.BlockSuite<Block> GREEN_ALEXANIUM_BLOCK =
             ModBlocks.registerBlockSuite("green_alexanium",
                     () -> new Block(BlockBehaviour.Properties
                             .ofFullCopy(Blocks.NETHERITE_BLOCK)
                             .mapColor(MapColor.COLOR_GREEN)),
+                    new ModBlockTagProvider.BlockTagGrouping(
+                            Set.of(BlockTags.MINEABLE_WITH_PICKAXE),
+                            Optional.of(BlockTags.NEEDS_DIAMOND_TOOL),
+                            Set.of(ModTags.Blocks.GREEN)
+                    ),
                     new Item.Properties(),
+                    Set.of(),
                     ModBlocks.BlockSuiteParams.stone()
             );
 
