@@ -12,8 +12,6 @@ import net.minecraft.world.level.block.Block;
 
 public class ModTags {
     public static class Blocks {
-        //public static final TagKey<Block> EXAMPLE = createTag("EXAMPLE");
-
         public static final TagKey<Block> GREEN = createTag("green");
 
         private static TagKey<Block> createTag(String name) {
@@ -22,8 +20,6 @@ public class ModTags {
     }
 
     public static class Items {
-        //public static final TagKey<Item> EXAMPLE = createTag("EXAMPLE");
-
         private static TagKey<Item> createTag(String name) {
             return ItemTags.create(ResourceLocation.fromNamespaceAndPath(GreenAlexMod.MODID, name));
         }

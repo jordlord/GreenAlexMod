@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "green_alex_mod:green_alex_soul_item"
+    },
+    {
+      "item": "green_alex_mod:green_alexite_block"
+    },
+    {
+      "item": "minecraft:creeper_head"
+    },
+    {
+      "item": "minecraft:cactus"
+    },
+    {
+      "item": "minecraft:emerald_block"
+    },
+    {
+      "item": "minecraft:slime_block"
+    },
+    {
+      "item": "minecraft:turtle_scute"
+    },
+    {
+      "item": "minecraft:pitcher_plant"
+    },
+    {
+      "item": "minecraft:music_disc_cat"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "green_alex_mod:green_alexanium_block"
+  }
+}

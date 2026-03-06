@@ -1,0 +1,14 @@
+// 1.21.1	2026-02-25T14:28:42.3057545	Tags for minecraft:item mod id green_alex_mod
+cc0693d6459d0c931c9944eff39a4a57eccac256 data/minecraft/tags/item/chest_armor.json
+cc0693d6459d0c931c9944eff39a4a57eccac256 data/minecraft/tags/item/enchantable/chest_armor.json
+afd312f98cc73fb89eed8ac234049189d87c51bc data/minecraft/tags/item/enchantable/foot_armor.json
+6a039999b0647856d3404206c2c491940cc88b2f data/minecraft/tags/item/enchantable/head_armor.json
+ad71e606e459d8db5b136fb91efcce1d8fb6f293 data/minecraft/tags/item/enchantable/leg_armor.json
+afd312f98cc73fb89eed8ac234049189d87c51bc data/minecraft/tags/item/foot_armor.json
+6a039999b0647856d3404206c2c491940cc88b2f data/minecraft/tags/item/head_armor.json
+ad71e606e459d8db5b136fb91efcce1d8fb6f293 data/minecraft/tags/item/leg_armor.json
+95886585c989bc80d6d46224981e7d5dbdada370 data/minecraft/tags/item/slabs.json
+146315d8ad50336ae69041ddfd3293c590d87aeb data/minecraft/tags/item/stairs.json
+61260b59cfcf1d780ff4422561069f5fc11c2986 data/minecraft/tags/item/trim_materials.json
+df319f0ce8a87b949acd58c67e92363e2bb7ebcd data/minecraft/tags/item/walls.json
+d925306b977432f8b079166da25fb255c10e4c0e data/minecraft/tags/item/wooden_pressure_plates.json

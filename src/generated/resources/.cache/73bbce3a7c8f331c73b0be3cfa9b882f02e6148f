@@ -1,0 +1,10 @@
+// 1.21.1	2026-02-25T14:28:42.3087586	Tags for minecraft:block mod id green_alex_mod
+6355b8f91f8d11b449ca80d8a39ad9161d12b608 data/green_alex_mod/tags/block/green.json
+d7e70d7152954067365653d78d36aee9d722ed9c data/minecraft/tags/block/dirt.json
+08aaff04a6af18686b3275bf24b779b6fe8a764a data/minecraft/tags/block/mineable/pickaxe.json
+d7e70d7152954067365653d78d36aee9d722ed9c data/minecraft/tags/block/mineable/shovel.json
+6355b8f91f8d11b449ca80d8a39ad9161d12b608 data/minecraft/tags/block/needs_diamond_tool.json
+d925306b977432f8b079166da25fb255c10e4c0e data/minecraft/tags/block/pressure_plates.json
+95886585c989bc80d6d46224981e7d5dbdada370 data/minecraft/tags/block/slabs.json
+146315d8ad50336ae69041ddfd3293c590d87aeb data/minecraft/tags/block/stairs.json
+df319f0ce8a87b949acd58c67e92363e2bb7ebcd data/minecraft/tags/block/walls.json

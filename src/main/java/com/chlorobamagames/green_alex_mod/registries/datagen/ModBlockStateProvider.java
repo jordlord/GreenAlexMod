@@ -1,8 +1,8 @@
 package com.chlorobamagames.green_alex_mod.registries.datagen;
 
 import com.chlorobamagames.green_alex_mod.GreenAlexMod;
-import com.chlorobamagames.green_alex_mod.registries.ModBlocks;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.*;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
@@ -11,56 +11,72 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Consumer;
 
 public class ModBlockStateProvider extends BlockStateProvider {
     public ModBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
         super(output, GreenAlexMod.MODID, exFileHelper);
     }
 
-    private static List<ModBlocks.BlockSuite<? extends Block>> blockSuites = new ArrayList<>();
+    private record InheritedModel<B extends Block, N extends Block> (
+            DeferredBlock<B> baseBlock,
+            DeferredBlock<N> newBlock
+    ){
+        private void modelRegister(
+                ModBlockStateProvider context
+        ) {
+            N block = newBlock.get();
+            ResourceLocation texture = context.blockTexture(baseBlock.get());
+            switch (block) {
+                case StairBlock s -> context.stairsBlock(s, texture);
+                case SlabBlock s -> context.slabBlock(s, texture, texture);
+                case FenceBlock f -> context.fenceBlock(f, texture);
+                case FenceGateBlock f ->context.fenceGateBlock(f, texture);
+                case WallBlock w -> context.wallBlock(w, texture);
+                case ButtonBlock b -> context.buttonBlock(b, texture);
+                case PressurePlateBlock p -> context.pressurePlateBlock(p, texture);
+                default -> context.blockWithItem(newBlock);
+            };
+        }
+        private String suffix() {
+            return switch (newBlock.get()) {
+                case WallBlock w -> "_post";
+                default -> "";
+            };
+        }
+        public void call(ModBlockStateProvider context){
+            modelRegister(context);
+            context.blockItem(newBlock, suffix());
+        }
+    }
 
-    public static <T extends Block>  void addBlockSuite(ModBlocks.BlockSuite<T> blockSuite) {
-        blockSuites.add(blockSuite);
+    private static final List<DeferredBlock<? extends Block>> blocks = new ArrayList<>();
+
+    private static final List<InheritedModel<? extends Block, ? extends Block>> inheritedModels = new ArrayList<>();
+
+    @FunctionalInterface
+    public interface BlockModelAdder<T extends Block> {
+        void add(DeferredBlock<T> blockEntry);
+    }
+
+    public static <T extends Block> void addBlock(DeferredBlock<T> block) {
+        blocks.add(block);
+    }
+
+    public static <B extends Block, N extends Block> void addInheritedBlock(
+            DeferredBlock<B> baseBlock,
+            DeferredBlock<N> newBlock
+    ) {
+        inheritedModels.add(new InheritedModel<B, N>(baseBlock, newBlock));
     }
 
     @Override
     protected void registerStatesAndModels() {
-        for (ModBlocks.BlockSuite<? extends Block> blockSuite : blockSuites) {
-            registerBlockSuite(blockSuite);
+        for (DeferredBlock<? extends Block> block : blocks) {
+            blockWithItem(block);
         }
-    }
-
-    private <T extends Block> void registerOptional(
-            Optional<ModBlocks.BlockEntry<T>> optional,
-            Consumer<T> modelRegistrar
-    ) {
-        optional.ifPresent(entry -> {
-            modelRegistrar.accept(entry.block().get());
-            blockItem(entry.block());
-        });
-    }
-
-    private <T extends Block> void registerBlockSuite(ModBlocks.BlockSuite<T> blockSuite) {
-        var baseEntry = blockSuite.block();
-        var baseBlock = baseEntry.block().get();
-        var texture = blockTexture(baseBlock);
-        blockWithItem(baseEntry.block());
-        registerOptional(blockSuite.stair(),
-                block -> stairsBlock(block, texture));
-        registerOptional(blockSuite.slab(),
-                block -> slabBlock(block, texture, texture));
-        registerOptional(blockSuite.fence(),
-                block -> fenceBlock(block, texture));
-        registerOptional(blockSuite.fenceGate(),
-                block -> fenceGateBlock(block, texture));
-        registerOptional(blockSuite.wall(),
-                block -> wallBlock(block, texture));
-        registerOptional(blockSuite.button(),
-                block -> buttonBlock(block, texture));
-        registerOptional(blockSuite.pressurePlate(),
-                block -> pressurePlateBlock(block, texture));
+        for(InheritedModel<? extends Block, ? extends Block> model : inheritedModels) {
+            model.call(this);
+        }
     }
 
     private void blockWithItem(DeferredBlock<?> deferredBlock) {

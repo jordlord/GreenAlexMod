@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 4,
+  "experience": 5.0,
+  "ingredient": {
+    "item": "green_alex_mod:green_alex_ore"
+  },
+  "result": {
+    "count": 1,
+    "id": "green_alex_mod:green_alexite_item"
+  }
+}

@@ -6,9 +6,10 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.armortrim.TrimMaterial;
 import net.minecraft.world.item.armortrim.TrimMaterials;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.*;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
@@ -16,7 +17,9 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 public class ModItemModelProvider extends ItemModelProvider {
     private static LinkedHashMap<ResourceKey<TrimMaterial>, Float> trimMaterials = new LinkedHashMap<>();
@@ -37,10 +40,17 @@ public class ModItemModelProvider extends ItemModelProvider {
         super(output, GreenAlexMod.MODID, existingFileHelper);
     }
 
-    // TODO Fill this in
+    private static List<DeferredItem<?>> basicItems = new ArrayList<>();
+
+    public static <T extends Item> void addItem(DeferredItem<T> item) {
+        basicItems.add(item);
+    }
+
     @Override
     protected void registerModels() {
-
+        for(DeferredItem<?> item : basicItems) {
+            basicItem(item.get());
+        }
     }
 
     // Shoutout to El_Redstoniano for making this
@@ -89,21 +99,14 @@ public class ModItemModelProvider extends ItemModelProvider {
         }
     }
 
-    public void buttonItem(DeferredBlock<?> block, DeferredBlock<Block> baseBlock) {
-        this.withExistingParent(block.getId().getPath(), mcLoc("block/button_inventory"))
-                .texture("texture",  ResourceLocation.fromNamespaceAndPath(GreenAlexMod.MODID,
-                        "block/" + baseBlock.getId().getPath()));
-    }
-
-    public void fenceItem(DeferredBlock<?> block, DeferredBlock<Block> baseBlock) {
-        this.withExistingParent(block.getId().getPath(), mcLoc("block/fence_inventory"))
-                .texture("texture",  ResourceLocation.fromNamespaceAndPath(GreenAlexMod.MODID,
-                        "block/" + baseBlock.getId().getPath()));
-    }
-
-    public void wallItem(DeferredBlock<?> block, DeferredBlock<Block> baseBlock) {
-        this.withExistingParent(block.getId().getPath(), mcLoc("block/wall_inventory"))
-                .texture("wall",  ResourceLocation.fromNamespaceAndPath(GreenAlexMod.MODID,
+    public <T extends Block> void uniqueModelItem(
+            String block_type_name,
+            DeferredBlock<T> block,
+            DeferredBlock<Block> baseBlock) {
+        this.withExistingParent(
+                block.getId().getPath(),
+                mcLoc("block/" + block_type_name + "_inventory"))
+                    .texture("texture",  ResourceLocation.fromNamespaceAndPath(GreenAlexMod.MODID,
                         "block/" + baseBlock.getId().getPath()));
     }
 

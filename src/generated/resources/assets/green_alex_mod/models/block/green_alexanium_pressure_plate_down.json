@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/pressure_plate_down",
+  "textures": {
+    "texture": "green_alex_mod:block/green_alexanium_block"
+  }
+}

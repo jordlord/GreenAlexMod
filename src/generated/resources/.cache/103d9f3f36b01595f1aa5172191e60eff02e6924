@@ -1,0 +1,4 @@
+// 1.21.1	2026-02-25T15:05:50.254246	Registries
+aa05e84473c691f472f3bc657e8df44cbbab1ef2 data/green_alex_mod/neoforge/biome_modifier/add_green_alex_ore.json
+e96c4fc9fec36f8751ab324241011a2a69183a26 data/green_alex_mod/worldgen/configured_feature/green_alex_ore.json
+5864f1b638c9bd52614298277e56be16916d1907 data/green_alex_mod/worldgen/placed_feature/green_alex_ore_placed.json

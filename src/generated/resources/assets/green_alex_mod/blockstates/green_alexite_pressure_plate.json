@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "green_alex_mod:block/green_alexite_pressure_plate"
+    },
+    "powered=true": {
+      "model": "green_alex_mod:block/green_alexite_pressure_plate_down"
+    }
+  }
+}

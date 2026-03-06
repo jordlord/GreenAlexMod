@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_wall_side",
+  "textures": {
+    "wall": "green_alex_mod:block/green_alexanium_block"
+  }
+}

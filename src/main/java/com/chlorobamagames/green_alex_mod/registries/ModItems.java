@@ -2,6 +2,7 @@ package com.chlorobamagames.green_alex_mod.registries;
 
 import com.chlorobamagames.green_alex_mod.GreenAlexMod;
 
+import com.chlorobamagames.green_alex_mod.registries.datagen.ModItemModelProvider;
 import com.chlorobamagames.green_alex_mod.registries.datagen.ModItemTagProvider;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
@@ -69,12 +70,14 @@ public class ModItems {
 
     // Helper method to register and auto-add to creative tab
     public static <T extends Item> DeferredItem<T> registerItem(
-            String name, Supplier<T> itemSupplier,
+            String name,
+            Supplier<T> itemSupplier,
             Set<TagKey<Item>> itemTags
     ) {
         DeferredItem<T> item =
                 ITEMS.register(name, itemSupplier);
         ModItemTagProvider.addItemTag(item, itemTags);
+        ModItemModelProvider.addItem(item);
         //ModCreativeTabs.addToTab(item);
         return item;
     }
@@ -86,7 +89,11 @@ public class ModItems {
             Set<TagKey<Item>> itemTags
     ) {
         DeferredItem<BlockItem> blockItem =
-                registerItem(name, () -> new BlockItem(block.get(), properties), itemTags);
+            ITEMS.register(
+                name,
+                () -> new BlockItem(block.get(), properties)
+            );
+        ModItemTagProvider.addItemTag(blockItem, itemTags);
         //ModCreativeTabs.addToTab(blockItem);
         return blockItem;
     }

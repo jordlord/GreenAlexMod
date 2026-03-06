@@ -4,6 +4,7 @@ import com.chlorobamagames.green_alex_mod.mod_files.GreenAlexArmor.GreenAlexArmo
 import com.chlorobamagames.green_alex_mod.mod_files.GreenAlexArmor.GreenAlexArmorItem;
 import com.chlorobamagames.green_alex_mod.mod_files.GreenAlexBlocks;
 import com.chlorobamagames.green_alex_mod.mod_files.GreenAlexItems;
+import com.chlorobamagames.green_alex_mod.mod_files.GreenAlexRecipes;
 import com.chlorobamagames.green_alex_mod.registries.ModBlocks;
 import com.chlorobamagames.green_alex_mod.registries.ModItems;
 import org.slf4j.Logger;
@@ -37,6 +38,7 @@ public class GreenAlexMod {
     public static final Object load_green_alex_blocks = new GreenAlexBlocks();
     public static final Object load_green_alex_armor = new GreenAlexArmorItem();
     public static final Object load_green_alex_items = new GreenAlexItems();
+    public static final Object load_green_alex_recipes = new GreenAlexRecipes();
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "green_alex_mod:block/green_alexite_block",
+    "side": "green_alex_mod:block/green_alexite_block",
+    "top": "green_alex_mod:block/green_alexite_block"
+  }
+}

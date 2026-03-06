@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "green_alex_mod:block/green_alexite_slab"
+    },
+    "type=double": {
+      "model": "green_alex_mod:block/green_alexite_block"
+    },
+    "type=top": {
+      "model": "green_alex_mod:block/green_alexite_slab_top"
+    }
+  }
+}

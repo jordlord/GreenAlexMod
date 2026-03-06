@@ -47,41 +47,6 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         blockTags.add(new BlockTagsHolder<T>(block, tags));
     }
 
-    private static <T extends Block> void addOptionalSuiteTags(
-            Optional<ModBlocks.BlockEntry<T>> optional,
-            BlockTagGrouping baseTags,
-            TagKey<Block> typeTag
-    ) {
-        optional.ifPresent(entry -> {
-
-            // Create a new grouping with the extra type tag
-            Set<TagKey<Block>> mergedOtherTags = new HashSet<>(baseTags.otherTags());
-            mergedOtherTags.add(typeTag);
-
-            BlockTagGrouping merged = new BlockTagGrouping(
-                    baseTags.miningTools(),
-                    baseTags.miningTier(),
-                    mergedOtherTags
-            );
-
-            addBlockTags(entry.block(), merged);
-        });
-    }
-
-    public static <T extends Block> void addBlockSuite(
-            ModBlocks.BlockSuite<T> blockSuite,
-            BlockTagGrouping baseTags){
-        // Base block — no extra type tag
-        addBlockTags(blockSuite.block().block(), baseTags);
-        addOptionalSuiteTags(blockSuite.stair(), baseTags, BlockTags.STAIRS);
-        addOptionalSuiteTags(blockSuite.slab(), baseTags, BlockTags.SLABS);
-        addOptionalSuiteTags(blockSuite.fence(), baseTags, BlockTags.FENCES);
-        addOptionalSuiteTags(blockSuite.fenceGate(), baseTags, BlockTags.FENCE_GATES);
-        addOptionalSuiteTags(blockSuite.wall(), baseTags, BlockTags.WALLS);
-        addOptionalSuiteTags(blockSuite.button(), baseTags, BlockTags.BUTTONS);
-        addOptionalSuiteTags(blockSuite.pressurePlate(), baseTags, BlockTags.PRESSURE_PLATES);
-    }
-
     @Override
     protected void addTags(HolderLookup.Provider provider) {
         // Automatically generate tags added

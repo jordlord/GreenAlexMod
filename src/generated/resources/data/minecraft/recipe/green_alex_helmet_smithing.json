@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "green_alex_mod:green_alexanium_item"
+  },
+  "base": {
+    "item": "minecraft:netherite_helmet"
+  },
+  "result": {
+    "count": 1,
+    "id": "green_alex_mod:green_alex_helmet"
+  },
+  "template": []
+}

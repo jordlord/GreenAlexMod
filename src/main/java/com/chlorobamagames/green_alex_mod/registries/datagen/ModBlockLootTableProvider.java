@@ -41,6 +41,24 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         return createMultipleOreDrops(ore.block, ore.item, ore.minimumDrops, ore.maximumDrops);
     }
 
+    private static List<DeferredBlock<?>> addedBlocksLootTables = new ArrayList<>();
+
+    @FunctionalInterface
+    public interface LootTableAdder<T extends Block> {
+        void add(DeferredBlock<T> blockEntry);
+    }
+
+    public static <T extends Block> void addBlockToLootTable(DeferredBlock<T> block){
+        addedBlocksLootTables.add(block);
+    }
+
+    public static <T extends Block> void addOreToLootTable(
+            DeferredBlock<T> block,
+            DeferredItem<Item> item,
+            int minimumDrops, int maximumDrops) {
+        addedOreLootTables.add(new OreLootTable<T>(block, item, minimumDrops, maximumDrops));
+    }
+
     protected <T extends Block> LootTable.Builder createMultipleOreDrops(
             DeferredBlock<T> pBlock,
             DeferredItem<Item> item,
@@ -52,17 +70,15 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
                         .apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE)))));
     }
 
-    public static <T extends Block> void addOreToLootTable(
-            DeferredBlock<T> block,
-            DeferredItem<Item> item,
-            int minimumDrops, int maximumDrops) {
-        addedOreLootTables.add(new OreLootTable<T>(block, item, minimumDrops, maximumDrops));
-    }
+
 
     @Override
     protected void generate() {
         for (OreLootTable<?> oreLootTable : addedOreLootTables) {
-            add((Block) oreLootTable.block.get(), generateLootTable(oreLootTable));
+            add(oreLootTable.block.get(), generateLootTable(oreLootTable));
+        }
+        for (DeferredBlock<?> block : addedBlocksLootTables) {
+            dropSelf(block.get());
         }
     }
 

@@ -4,6 +4,7 @@ import com.chlorobamagames.green_alex_mod.GreenAlexMod;
 import com.chlorobamagames.green_alex_mod.registries.datagen.ModBlockLootTableProvider;
 import com.chlorobamagames.green_alex_mod.registries.datagen.ModBlockStateProvider;
 import com.chlorobamagames.green_alex_mod.registries.datagen.ModBlockTagProvider;
+import com.chlorobamagames.green_alex_mod.registries.datagen.ModRecipeProvider;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -20,6 +21,8 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -72,7 +75,8 @@ public class ModBlocks {
 
     protected record BlockRegistrationParameters<T extends Block> (
             String baseName,
-            Supplier<T> baseBlock,
+            Function<BlockBehaviour.Properties, T> baseBlock,
+            BlockBehaviour.Properties properties,
             ModBlockTagProvider.BlockTagGrouping blockTags,
             Item.Properties itemProperties,
             Set<TagKey<Item>> itemTags
@@ -86,57 +90,48 @@ public class ModBlocks {
         public ModBlockTagProvider.BlockTagGrouping appendBlockTag(TagKey<Block> tag){
             return blockTags.appendBlockTag(tag);
         }
-    }
 
-    public static <T extends Block> BlockEntry<T> registerBlock(
-            String name,
-            Supplier<T> blockSupplier,
-            ModBlockTagProvider.BlockTagGrouping blockTags,
-            Item.Properties blockItemProperties,
-            Set<TagKey<Item>> itemTags
-    ){
-        return registerBlock(
-            new BlockRegistrationParameters<>(
-                name,
-                blockSupplier,
-                blockTags,
-                blockItemProperties,
-                itemTags
-            )
-        );
+        public Supplier<T> supplier(){
+            return () -> baseBlock.apply(properties);
+        }
     }
 
     public static <T extends Block> BlockEntry<T> registerOre(
-            String name,
-            Supplier<T> blockSupplier,
+            String baseName,
+            Function<BlockBehaviour.Properties, T> baseBlock,
+            BlockBehaviour.Properties properties,
             ModBlockTagProvider.BlockTagGrouping blockTags,
-            Item.Properties blockItemProperties,
+            Item.Properties itemProperties,
             Set<TagKey<Item>> itemTags,
             DeferredItem<Item> oreDrop,
             int minimumDrop, int maximumDrop
     ) {
         return registerOre(new BlockRegistrationParameters<>(
-                name,
-                blockSupplier,
+                baseName,
+                baseBlock,
+                properties,
                 blockTags,
-                blockItemProperties,
+                itemProperties,
                 itemTags
-                ), oreDrop, minimumDrop, maximumDrop);
+                ),
+                oreDrop, minimumDrop, maximumDrop);
     }
 
     public static <T extends Block> BlockSuite<T> registerBlockSuite(
-            String name,
-            Supplier<T> blockSupplier,
+            String baseName,
+            Function<BlockBehaviour.Properties, T> baseBlock,
+            BlockBehaviour.Properties properties,
             ModBlockTagProvider.BlockTagGrouping blockTags,
-            Item.Properties blockItemProperties,
+            Item.Properties itemProperties,
             Set<TagKey<Item>> itemTags,
             BlockSuiteParams params
     ) {
         return registerBlockSuite(new BlockRegistrationParameters<>(
-                name,
-                blockSupplier,
+                baseName,
+                baseBlock,
+                properties,
                 blockTags,
-                blockItemProperties,
+                itemProperties,
                 itemTags
         ), params);
     }
@@ -146,20 +141,49 @@ public class ModBlocks {
     // ==========================
     // Use for simple blocks
     protected static <T extends Block> BlockEntry<T> registerBlock(
-            BlockRegistrationParameters<T> regParams) {
+            BlockRegistrationParameters<T> regParams,
+            ModBlockStateProvider.BlockModelAdder<T> modelAdder,
+            ModBlockLootTableProvider.LootTableAdder<T> lootTableAdder
+            ) {
 
         // Register the block
-        DeferredBlock<T> reg_block = BLOCKS.register(regParams.baseName, regParams.baseBlock);
+        DeferredBlock<T> deferredBlock = BLOCKS.register(regParams.baseName, regParams.supplier());
 
         // Register the corresponding BlockItem
         DeferredItem<BlockItem> blockItem =
                 ModItems.registerBlockItem(
                         regParams.baseName,
-                        reg_block,
+                        deferredBlock,
                         regParams.itemProperties,
                         regParams.itemTags);
 
-        return new BlockEntry<>(reg_block, blockItem);
+        // Data gen model
+        modelAdder.add(deferredBlock);
+        // Data gen block tags
+        ModBlockTagProvider.addBlockTags(deferredBlock, regParams.blockTags);
+        // Data gen loot table
+        lootTableAdder.add(deferredBlock);
+
+        return new BlockEntry<>(deferredBlock, blockItem);
+    }
+
+    protected static <T extends Block> BlockEntry<T> registerBasicBlock(
+            BlockRegistrationParameters<T> regParams
+    ) {
+        return registerBlock(
+                regParams,
+                ModBlockStateProvider::addBlock,
+                ModBlockLootTableProvider::addBlockToLootTable);
+    }
+
+    protected static <T extends Block, B extends Block> BlockEntry<T> registerInheritedBlock(
+            BlockRegistrationParameters<T> regParams,
+            DeferredBlock<B> baseBlock
+    ) {
+        return registerBlock(
+                regParams,
+                newBlock -> ModBlockStateProvider.addInheritedBlock(baseBlock, newBlock),
+                ModBlockLootTableProvider::addBlockToLootTable);
     }
 
     protected static <T extends Block> BlockEntry<T> registerOre(
@@ -167,88 +191,104 @@ public class ModBlocks {
             DeferredItem<Item> oreDrop,
             int minimumDrop, int maximumDrop
             ) {
-        BlockEntry<T> reg_block = registerBlock(regParams);
-        ModBlockLootTableProvider.addOreToLootTable(reg_block.block(), oreDrop, minimumDrop, maximumDrop);
-        return reg_block;
+        // Register the block
+        return registerBlock(
+                regParams,
+                ModBlockStateProvider::addBlock,
+                (block) -> ModBlockLootTableProvider.addOreToLootTable(block, oreDrop, minimumDrop, maximumDrop)
+        );
     }
 
-    protected static <T extends Block> BlockSuite<T> registerBlockSuite(
-            BlockRegistrationParameters<T> regParams,
+    protected static <B extends Block> BlockSuite<B> registerBlockSuite(
+            BlockRegistrationParameters<B> regParams,
             BlockSuiteParams blockSuiteParams
     ){
-        BlockEntry<T> block = registerBlock(
-                regParams.baseName + "_block",
-                regParams.baseBlock,
-                regParams.blockTags,
-                regParams.itemProperties,
-                regParams.itemTags
-                );
 
-        BlockSuite<T> output = new BlockSuite<>(
+        BlockEntry<B> block =
+            registerBasicBlock(
+                new BlockRegistrationParameters<>(
+                    regParams.baseName + "_block",
+                    regParams.baseBlock,
+                    regParams.properties,
+                    regParams.blockTags,
+                    regParams.itemProperties,
+                    regParams.itemTags
+                ));
+
+        return new BlockSuite<>(
             block,
-            registerSuitePart(
-                    regParams,
+            registerSuitePart(regParams, block,
                     blockSuiteParams.stairs,
                     "_stairs",
                     props -> new StairBlock(block.block().get().defaultBlockState(), props),
+                    ModRecipeProvider.ShapedCraftingRecipe::stairs,
                     BlockTags.STAIRS, ItemTags.STAIRS),
-            registerSuitePart(regParams,
+            registerSuitePart(regParams, block,
                     blockSuiteParams.slab,
                     "_slab",
                     SlabBlock::new,
+                    ModRecipeProvider.ShapedCraftingRecipe::slabs,
                     BlockTags.SLABS, ItemTags.SLABS),
-            registerSuitePart(regParams,
+            registerSuitePart(regParams, block,
                     blockSuiteParams.fence,
                     "_fence",
                     FenceBlock::new,
+                    ModRecipeProvider.ShapedCraftingRecipe::fences,
                     BlockTags.FENCES, ItemTags.FENCES),
-            registerSuitePart(
-                    regParams,
+            registerSuitePart(regParams, block,
                     blockSuiteParams.fenceGate,
                     "_fence_gate",
                     props -> new FenceGateBlock(WoodType.CRIMSON, props),
+                    ModRecipeProvider.ShapedCraftingRecipe::fenceGates,
                     BlockTags.FENCE_GATES, ItemTags.FENCE_GATES),
-            registerSuitePart(
-                    regParams,
+            registerSuitePart(regParams, block,
                     blockSuiteParams.wall,
                     "_wall",
                     WallBlock::new,
+                    ModRecipeProvider.ShapedCraftingRecipe::walls,
                     BlockTags.WALLS, ItemTags.WALLS),
-            registerSuitePart(
-                    regParams,
+            registerSuitePart(regParams, block,
                     blockSuiteParams.button,
                     "_button",
                     props -> new ButtonBlock(BlockSetType.CRIMSON, 10, props),
+                    ModRecipeProvider.ShapedCraftingRecipe::button,
                     BlockTags.BUTTONS, ItemTags.BUTTONS),
-            registerSuitePart(
-                    regParams,
+            registerSuitePart(regParams, block,
                     blockSuiteParams.pressurePlate,
                     "_pressure_plate",
                     props -> new PressurePlateBlock(BlockSetType.CRIMSON, props),
+                    ModRecipeProvider.ShapedCraftingRecipe::pressurePlate,
                     BlockTags.PRESSURE_PLATES, ItemTags.WOODEN_PRESSURE_PLATES)
         );
-
-        ModBlockStateProvider.addBlockSuite(output);
-        ModBlockTagProvider.addBlockSuite(output, regParams.blockTags);
-        return output;
     }
+
 
     private static <T extends Block, B extends Block> Optional<BlockEntry<T>> registerSuitePart(
             BlockRegistrationParameters<B> regParams,
+            BlockEntry<B> baseBlock,
             boolean enabled,
             String suffix,
             Function<BlockBehaviour.Properties, T> factory,
+            BiFunction<DeferredItem<BlockItem>, DeferredItem<BlockItem>, ModRecipeProvider.ShapedCraftingRecipe> recipe,
             TagKey<Block> blockTagKey, TagKey<Item> itemTagKey
     ) {
-        return enabled
-            ? Optional.of(
-                registerBlock(
-                regParams.baseName() + suffix,
-                    () -> factory.apply(regParams.baseBlock.get().properties()),
-                    regParams.appendBlockTag(blockTagKey),
-                    regParams.itemProperties(),
-                    regParams.appendItemTag(itemTagKey)
-                ))
-            : Optional.empty();
+        if (enabled) {
+            BlockEntry<T> blockEntry =
+                registerInheritedBlock(
+                    new BlockRegistrationParameters<>(
+                        regParams.baseName() + suffix,
+                        factory,
+                        regParams.properties(),
+                        regParams.appendBlockTag(blockTagKey),
+                        regParams.itemProperties(),
+                        regParams.appendItemTag(itemTagKey)
+                    ),
+                    baseBlock.block()
+                );
+            ModRecipeProvider.addShapedRecipe(recipe.apply(baseBlock.item(), blockEntry.item()));
+            return Optional.of(blockEntry);
+        } else {
+            return Optional.empty();
+        }
     }
 }

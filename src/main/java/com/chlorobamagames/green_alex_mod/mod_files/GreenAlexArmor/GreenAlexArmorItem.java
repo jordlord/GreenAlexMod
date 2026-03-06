@@ -3,22 +3,33 @@ package com.chlorobamagames.green_alex_mod.mod_files.GreenAlexArmor;
 import com.chlorobamagames.green_alex_mod.GreenAlexMod;
 import com.chlorobamagames.green_alex_mod.mod_files.GreenAlexItems;
 import com.chlorobamagames.green_alex_mod.registries.ModItems;
+import com.chlorobamagames.green_alex_mod.registries.datagen.ModRecipeProvider;
 import com.google.common.collect.Maps;
-import net.minecraft.core.Holder;
+import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
-import net.minecraft.world.item.Item;
-import net.neoforged.neoforge.registries.DeferredItem;
+import net.minecraft.world.item.ArmorMaterials;
+import net.minecraft.world.item.Items;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.Optional;
 
 public class GreenAlexArmorItem {
+
+    public static List<ArmorMaterial.Layer> getLayers(String baseName) {
+        return List.of(
+                new ArmorMaterial.Layer(
+                        ResourceLocation.fromNamespaceAndPath(
+                                GreenAlexMod.MODID,
+                                baseName
+                        )
+                )
+        );
+    }
+
     public static final ArmorMaterial GREEN_ALEXITE_MATERIAL = new ArmorMaterial(
             makeDefense(
                     5,
@@ -29,11 +40,9 @@ public class GreenAlexArmorItem {
             10,
             SoundEvents.ARMOR_EQUIP_DIAMOND,
             GreenAlexItems.REPAIRS_GREEN_ALEX,
-            List.of(new ArmorMaterial.Layer(
-                    ResourceLocation.fromNamespaceAndPath(GreenAlexMod.MODID, "green_alexite_material")
-            )),
+            getLayers("green_alex"),
             4.0F,
-            0.5F
+            0.1F
     );
 
     @SuppressWarnings("SameParameterValue")
@@ -59,9 +68,10 @@ public class GreenAlexArmorItem {
         );
     }
 
-
     public static ModItems.ArmorSet GREEN_ALEX_ARMOR =
             ModItems.registerArmorSet(
                     "green_alex",
                     GREEN_ALEXITE_MATERIAL);
+
+
 }
