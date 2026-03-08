@@ -2,23 +2,18 @@ package com.chlorobamagames.green_alex_mod.mod_files;
 
 import com.chlorobamagames.green_alex_mod.GreenAlexMod;
 import com.chlorobamagames.green_alex_mod.registries.ModItems;
-import com.chlorobamagames.green_alex_mod.registries.datagen.ModRecipeProvider;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.registries.DeferredItem;
 
-import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 
-import static com.chlorobamagames.green_alex_mod.mod_files.GreenAlexBlocks.GREEN_ALEXITE_BLOCK;
-
+@SuppressWarnings("unused")
 public class GreenAlexItems {
     public static final DeferredItem<Item> GREEN_ALEXITE_ITEM = ModItems.registerItem(
             "green_alexite_item",

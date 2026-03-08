@@ -10,6 +10,7 @@
     "green_alex_mod:green_alexanium_stairs",
     "green_alex_mod:green_alexanium_slab",
     "green_alex_mod:green_alexanium_wall",
-    "green_alex_mod:green_alexanium_pressure_plate"
+    "green_alex_mod:green_alexanium_pressure_plate",
+    "minecraft:grass_block"
   ]
 }

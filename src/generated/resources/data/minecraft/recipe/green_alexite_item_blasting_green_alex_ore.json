@@ -1,7 +1,7 @@
 {
   "type": "minecraft:blasting",
   "category": "misc",
-  "cookingtime": 4,
+  "cookingtime": 40,
   "experience": 5.0,
   "ingredient": {
     "item": "green_alex_mod:green_alex_ore"

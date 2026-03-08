@@ -78,7 +78,7 @@ public class ModItems {
                 ITEMS.register(name, itemSupplier);
         ModItemTagProvider.addItemTag(item, itemTags);
         ModItemModelProvider.addItem(item);
-        //ModCreativeTabs.addToTab(item);
+        ModCreativeTabs.addToCreativeTab(item);
         return item;
     }
 
@@ -94,7 +94,7 @@ public class ModItems {
                 () -> new BlockItem(block.get(), properties)
             );
         ModItemTagProvider.addItemTag(blockItem, itemTags);
-        //ModCreativeTabs.addToTab(blockItem);
+        ModCreativeTabs.addToCreativeTab(blockItem);
         return blockItem;
     }
 

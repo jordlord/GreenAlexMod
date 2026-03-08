@@ -3,20 +3,16 @@ package com.chlorobamagames.green_alex_mod.mod_files.GreenAlexArmor;
 import com.chlorobamagames.green_alex_mod.GreenAlexMod;
 import com.chlorobamagames.green_alex_mod.mod_files.GreenAlexItems;
 import com.chlorobamagames.green_alex_mod.registries.ModItems;
-import com.chlorobamagames.green_alex_mod.registries.datagen.ModRecipeProvider;
 import com.google.common.collect.Maps;
-import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
-import net.minecraft.world.item.ArmorMaterials;
-import net.minecraft.world.item.Items;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
+@SuppressWarnings("unused")
 public class GreenAlexArmorItem {
 
     public static List<ArmorMaterial.Layer> getLayers(String baseName) {

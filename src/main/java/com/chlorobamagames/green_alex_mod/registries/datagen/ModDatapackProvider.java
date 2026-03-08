@@ -4,6 +4,7 @@ import com.chlorobamagames.green_alex_mod.GreenAlexMod;
 import com.chlorobamagames.green_alex_mod.registries.worldgen.ModBiomeModifiers;
 import com.chlorobamagames.green_alex_mod.registries.worldgen.ModConfiguredFeatures;
 import com.chlorobamagames.green_alex_mod.registries.worldgen.ModPlacedFeatures;
+import com.chlorobamagames.green_alex_mod.registries.worldgen.ModStructures;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
@@ -19,7 +20,9 @@ public class ModDatapackProvider extends DatapackBuiltinEntriesProvider {
             //.add(Registries.ENCHANTMENT, ModEnchantments::bootstrap)
             .add(Registries.CONFIGURED_FEATURE, ModConfiguredFeatures::bootstrap)
             .add(Registries.PLACED_FEATURE, ModPlacedFeatures::bootstrap)
-            .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ModBiomeModifiers::bootstrap);
+            .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ModBiomeModifiers::bootstrap)
+            .add(Registries.STRUCTURE_SET, ModStructures::bootstrapStructureSet)
+            ;
 
     public ModDatapackProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
         super(output, registries, BUILDER, Set.of(GreenAlexMod.MODID));

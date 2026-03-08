@@ -8,6 +8,7 @@ import net.minecraft.world.item.Items;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("unused")
 public class GreenAlexRecipes {
 
     public static ModRecipeProvider.CookingRecipe<?, ?> GREEN_ALEX_ORE_COOKING_RECIPE =

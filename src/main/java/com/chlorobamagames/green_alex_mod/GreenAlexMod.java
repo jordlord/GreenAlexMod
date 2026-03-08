@@ -1,21 +1,16 @@
 package com.chlorobamagames.green_alex_mod;
 
-import com.chlorobamagames.green_alex_mod.mod_files.GreenAlexArmor.GreenAlexArmorEffects;
 import com.chlorobamagames.green_alex_mod.mod_files.GreenAlexArmor.GreenAlexArmorItem;
 import com.chlorobamagames.green_alex_mod.mod_files.GreenAlexBlocks;
 import com.chlorobamagames.green_alex_mod.mod_files.GreenAlexItems;
 import com.chlorobamagames.green_alex_mod.mod_files.GreenAlexRecipes;
 import com.chlorobamagames.green_alex_mod.registries.ModBlocks;
+import com.chlorobamagames.green_alex_mod.registries.ModCreativeTabs;
 import com.chlorobamagames.green_alex_mod.registries.ModItems;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
 
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.level.block.Blocks;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
@@ -23,9 +18,7 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
-import net.neoforged.neoforge.registries.DeferredRegister;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(GreenAlexMod.MODID)
@@ -39,6 +32,7 @@ public class GreenAlexMod {
     public static final Object load_green_alex_armor = new GreenAlexArmorItem();
     public static final Object load_green_alex_items = new GreenAlexItems();
     public static final Object load_green_alex_recipes = new GreenAlexRecipes();
+    public static final Object load_creative_tabs = new ModCreativeTabs();
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
@@ -51,7 +45,7 @@ public class GreenAlexMod {
         // Register the Deferred Register to the mod event bus so items get registered
         ModItems.ITEMS.register(modEventBus);
         // Register the Deferred Register to the mod event bus so tabs get registered
-        //CREATIVE_MODE_TABS.register(modEventBus);
+        ModCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (GreenAlexMod) to respond directly to events.

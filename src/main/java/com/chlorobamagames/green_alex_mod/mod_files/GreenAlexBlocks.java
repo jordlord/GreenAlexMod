@@ -3,12 +3,9 @@ package com.chlorobamagames.green_alex_mod.mod_files;
 import com.chlorobamagames.green_alex_mod.registries.ModBlocks;
 import com.chlorobamagames.green_alex_mod.registries.ModTags;
 import com.chlorobamagames.green_alex_mod.registries.datagen.ModBlockTagProvider;
-import com.chlorobamagames.green_alex_mod.registries.datagen.ModRecipeProvider;
-import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DropExperienceBlock;
@@ -17,6 +14,7 @@ import net.minecraft.world.level.material.MapColor;
 
 import java.util.*;
 
+@SuppressWarnings("unused")
 public class GreenAlexBlocks {
     public static final ModBlocks.BlockEntry<DropExperienceBlock> GREEN_ALEX_ORE =
             ModBlocks.registerOre("green_alex_ore",
@@ -70,8 +68,4 @@ public class GreenAlexBlocks {
                     Set.of(),
                     ModBlocks.BlockSuiteParams.metal()
             );
-
-
-
-
 }

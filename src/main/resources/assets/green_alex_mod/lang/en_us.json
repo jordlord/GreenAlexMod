@@ -1,7 +1,5 @@
 {
-  "itemGroup.green_alex_mod": "Example Mod Tab",
-  "block.green_alex_mod.example_block": "Example Block",
-  "item.green_alex_mod.example_item": "Example Item",
+  "creativetab.green_alex_mod.green_alex_items": "Green Alex Mod Tab",
 
   "green_alex_mod.configuration.title": "GreenAlexMod Configs",
   "green_alex_mod.configuration.section.green_alex_mod.common.toml": "GreenAlexMod Configs",
@@ -12,9 +10,19 @@
 
   "item.green_alex_mod.green_alexite_item": "Green Alexite",
   "block.green_alex_mod.green_alexite_block": "Green Alexite Block",
+  "block.green_alex_mod.green_alexite_stairs": "Green Alexite Stairs",
+  "block.green_alex_mod.green_alexite_slab": "Green Alexite Slab",
+  "block.green_alex_mod.green_alexite_wall": "Green Alexite Wall",
+  "block.green_alex_mod.green_alexite_pressure_plate": "Green Alexite Pressure Plate",
 
   "item.green_alex_mod.green_alexanium_item": "Green Alexanium",
   "block.green_alex_mod.green_alexanium_block": "Green Alexanium Block",
+  "block.green_alex_mod.green_alexanium_stairs": "Green Alexanium Stairs",
+  "block.green_alex_mod.green_alexanium_slab": "Green Alexanium Slab",
+  "block.green_alex_mod.green_alexanium_wall": "Green Alexanium Wall",
+  "block.green_alex_mod.green_alexanium_pressure_plate": "Green Alexanium Pressure Plate",
+
+  "item.green_alex_mod.green_alex_soul_item": "Green Alex Soul",
 
   "item.green_alex_mod.green_alex_helmet": "Green Alex Helmet",
   "item.green_alex_mod.green_alex_chestplate": "Green Alex Chestplate",
